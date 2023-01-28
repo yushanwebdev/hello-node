@@ -1,9 +1,31 @@
-const amount = 9;
+const { readFile, writeFile } = require("fs");
 
-if (amount < 10) {
-  console.log("small number");
-} else {
-  console.log("large number");
-}
+readFile("./content/first.txt", "utf8", (err, result) => {
+  if (err) {
+    console.log("error", error);
+    return;
+  }
 
-console.log(`Hello World!!!`);
+  const first = result;
+  readFile("./content/second.txt", "utf8", (err, result) => {
+    if (err) {
+      console.log("error", err);
+      return;
+    }
+
+    const second = result;
+
+    writeFile(
+      "./content/result-async.txt",
+      `Here is the result: ${first}, ${second}`,
+      (err, result) => {
+        if (err) {
+          console.log("error", err);
+          return;
+        }
+
+        console.log("result", result);
+      }
+    );
+  });
+});
